@@ -192,6 +192,7 @@ module Fluent
         :username => @username,
         :password => @password,
         :socket => @socket,
+        :encoding => 'utf-8'
       }
 
       @base_model = Class.new(ActiveRecord::Base) do
