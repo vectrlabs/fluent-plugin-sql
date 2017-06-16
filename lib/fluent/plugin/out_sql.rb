@@ -93,7 +93,8 @@ module Fluent
         chunk.msgpack_each { |tag, time, data|
           begin
             # format process should be moved to emit / format after supports error stream.
-            records << @model.new(@format_proc.call(data))
+            parser = Yajl::Parser.new
+            records << @model.new(@format_proc.call(parser.parse(Yajl.dump(data)))
           rescue => e
             args = {:error => e.message, :error_class => e.class, :table => @table, :record => Yajl.dump(data)}
             @log.warn "Failed to create the model. Ignore a record:", args
